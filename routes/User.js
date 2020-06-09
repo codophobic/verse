@@ -52,6 +52,7 @@ userRouter.get('/logout',passport.authenticate('jwt',{session:false}),(req,res)=
 
 userRouter.post('/newNote',passport.authenticate('jwt',{session:false}),(req,res)=>{
     const note = req.body.note;
+    //console.log(req.body);
     const {notes}= req.user;
     const newNotes = [...notes,note];
     req.user.notes= newNotes;
@@ -100,22 +101,40 @@ userRouter.delete('/deleteNote',passport.authenticate('jwt',{session:false}),(re
 userRouter.patch('/editNote',passport.authenticate('jwt',{session:false}),(req,res)=>{
     const index= req.body.index;
     const note = req.body.note;
+
     const curNotes= req.user.notes;
     curNotes[index]= note;
+    const {_id} = req.user;
 
-    req.user.notes= curNotes;
-
-    req.user.save(err=>{
+    User.findOne({_id:_id},(err,doc)=>{
         if(err)
-        res.status(500).json({message:{msgBody:'err occured',msgError:true}});
-        else
-        {
-            res.status(200).json({message:'note edited'});
-            console.log(req.user);
-        } 
+        console.log(err);
+        else{
+            doc.notes.index= note
+            console.log(doc);
+            doc.save();
+        }
     })
+    // console.log(curNotes);
+
+    // req.user.notes= curNotes;
+
+    // req.user.save(err=>{
+    //     if(err)
+    //     res.status(500).json({message:{msgBody:'err occured',msgError:true}});
+    //     else
+    //     {
+    //         res.status(200).json({message:'note edited'});
+    //         console.log(req.user);
+    //     } 
+    // })
     
 
+});
+
+userRouter.get('/authenticated',passport.authenticate('jwt',{session:false}),(req,res)=>{
+    const {email,name}= req.user;
+    res.status(200).json({isAuthenticated:true,user:{email,name}});
 })
 
 module.exports= userRouter;

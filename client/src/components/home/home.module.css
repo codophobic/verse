@@ -1,0 +1,36 @@
+.heading{
+    padding: 10px;
+    font-size: 40px;
+    display: inline-block;
+    border: 2px solid #115;
+    border-radius: 20px;
+    margin-left: 240px;
+    margin-top: 20px;
+}
+
+.form{
+    display: inline-block;
+    margin: 20px 10px 10px 250px;
+    padding: 10px 100px 10px 100px;
+    border: 1px dashed blue;
+    background-image: url('../../images/blogg.jpeg');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.btn{
+    background-color: red;
+    font-weight: bold;
+    color: white;
+    margin-right: 20px;
+}
+
+.btn1{
+    background-color: aquamarine;
+    color: black;
+    margin-right: 10px;
+}
+
+.btn:hover{
+    cursor: pointer;
+}
+
