@@ -6,6 +6,7 @@ import Login from './components/login/login';
 import Register from './components/register/register';
 import Home from './components/home/home';
 import Nav from './components/nav';
+import Edit from './components/edit/edit';
 
 import {BrowserRouter,Route,Switch,Link} from 'react-router-dom'
 
@@ -33,8 +34,12 @@ class App extends Component {
      <Nav/>
     <Switch>
         {this.props.isAuthenticated&&
-          <Route path='/' component={Home}/>
-          }
+           <Route path='/' exact component={Home}/>
+        }
+        {
+          this.props.isAuthenticated&&
+          <Route path='/edit' component={Edit} exact/>
+        }
           <Route path='/register' component={Register} exact/>
         <Route path='/' component={Login} />
         

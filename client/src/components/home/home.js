@@ -3,6 +3,7 @@ import ACTIONS from '../../redux/actions';
 import classes from './home.module.css';
 import {connect} from 'react-redux';
 import Axios from 'axios';
+import {withRouter} from 'react-router-dom';
 
 
  class Home extends Component {
@@ -18,12 +19,6 @@ sumbithandler=(e)=>{
     e.preventDefault();
     Axios.post('/user/newNote',{note:this.state.note}).then(res=>{
         console.log(res);
-        // const notesArray = this.state.notes;
-        // notesArray.push(this.state.note);
-        // this.setState({
-        //     ...this.state,
-        //     notes:notesArray
-        // })
         this.setState({
             ...this.state,
             note:'',
@@ -64,7 +59,10 @@ componentDidUpdate=(prevprops,prevstate)=>{
 }
 onDelete=(index)=>{
     console.log(index);
-    Axios.delete('/user/deleteNote',{index:index}).then(res=>{
+    const payload={
+        index:index
+    };
+    Axios.delete('/user/deleteNote',{data:payload}).then(res=>{
         console.log(res);
         this.setState({
             ...this.state,
@@ -75,15 +73,11 @@ onDelete=(index)=>{
 
 onEdit= (index)=>{
     console.log(index + this.state.notes[index]);
+    this.props.history.push({pathname:'/edit',state:{note:this.state.notes[index],index:index}});
 
-    //  this.setState({
-    //      ...this.state,
-    //      reload:this.state.reload===0?1:0
-    //  });
 }
 
     render() {
-
         const allNotes= this.state.notes.map((el,index)=>{
             return(
                 <div key={index} className='row block-margin' style={{border:'2px solid black',marginBottom:'10px',marginLeft:'195px',display:'inline-block',width:'70%',background:'#f2f2f2'}}>
@@ -148,4 +142,4 @@ const mapStateToProps = state => ({
     updateisauthenticated: val => dispatch(ACTIONS.updateIsauthenticated(val)),
 
   });
-export default connect(mapStateToProps,mapDispatchToProps)(Home);
+export default connect(mapStateToProps,mapDispatchToProps)(withRouter(Home));

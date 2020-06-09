@@ -62,7 +62,7 @@ userRouter.post('/newNote',passport.authenticate('jwt',{session:false}),(req,res
             else
             {
                 res.status(200).json({message:'notes uploaded'});
-                console.log(req.user);
+                //console.log(req.user);
             } 
         })
 
@@ -91,43 +91,31 @@ userRouter.delete('/deleteNote',passport.authenticate('jwt',{session:false}),(re
         else
         {
             res.status(200).json({message:'note deleted'});
-            console.log(req.user);
+            //console.log(req.user);
         } 
     })
 
 
 });
 
-userRouter.patch('/editNote',passport.authenticate('jwt',{session:false}),(req,res)=>{
+userRouter.patch('/editNote',passport.authenticate('jwt',{session:false}),async (req,res)=>{
     const index= req.body.index;
     const note = req.body.note;
 
-    const curNotes= req.user.notes;
-    curNotes[index]= note;
-    const {_id} = req.user;
+    const curUser = await User.findById(req.user._id);
+    //console.log(curUser);
 
-    User.findOne({_id:_id},(err,doc)=>{
+    let allNotes = curUser.notes;
+    allNotes[index]=note;
+
+    let update ={notes:allNotes};
+
+    const updateNotes= await User.findByIdAndUpdate(req.user._id,update,(err,doc)=>{
         if(err)
-        console.log(err);
-        else{
-            doc.notes.index= note
-            console.log(doc);
-            doc.save();
-        }
+        res.send(err);
+        else
+        res.send(doc);
     })
-    // console.log(curNotes);
-
-    // req.user.notes= curNotes;
-
-    // req.user.save(err=>{
-    //     if(err)
-    //     res.status(500).json({message:{msgBody:'err occured',msgError:true}});
-    //     else
-    //     {
-    //         res.status(200).json({message:'note edited'});
-    //         console.log(req.user);
-    //     } 
-    // })
     
 
 });
