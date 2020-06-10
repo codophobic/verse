@@ -1,6 +1,7 @@
 
 
-### `A user can create a note,delete and edit existing notes. Also user can upload files(The uploaded files are stored in uploads folder in server)`
+**A user can create a note,delete and edit existing notes.<br/>
+ Also user can upload files(The uploaded files are stored in uploads folder in server)**
 
 
 ### `Steps to run the application:`
