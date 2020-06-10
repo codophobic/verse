@@ -17,13 +17,8 @@ mongoose.connect(config.mongoURI,
     .then(() => console.log('MongoDB Connected...'))
     .catch(err => console.log(err));
 
-
-
     const userRouter = require('./routes/User');
     app.use('/user',userRouter);
-
-    
-
 
     const port = process.env.PORT || 5000;
 app.listen(port,()=>{
