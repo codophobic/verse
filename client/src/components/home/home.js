@@ -4,7 +4,7 @@ import classes from './home.module.css';
 import {connect} from 'react-redux';
 import Axios from 'axios';
 import {withRouter} from 'react-router-dom';
-
+import FileUpload from '../fileUpload';
 
  class Home extends Component {
 constructor(){
@@ -121,7 +121,7 @@ onEdit= (index)=>{
                             
                         </form>
                    </div>
-
+                     <FileUpload/>
 
                     <div className='container-fluid'>
                         {allNotes}

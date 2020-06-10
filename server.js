@@ -3,7 +3,9 @@ const app =express();
 const cookieParser= require('cookie-parser');
 const mongoose = require('mongoose');
 const config = require("./config/key");
+const cors = require('cors');
 
+app.use(cors());
 app.use(cookieParser());
 app.use(express.json());
 
@@ -15,20 +17,6 @@ mongoose.connect(config.mongoURI,
     .then(() => console.log('MongoDB Connected...'))
     .catch(err => console.log(err));
 
-    // const User = require('./models/User');
-    // const det={
-    //     email:"k",
-    //     password:"1234567",
-    //     name:"ank"
-    // };
-
-    // const newUser= new User(det);
-    // newUser.save((err,doc)=>{
-    //     if(err)
-    //     console.log(err);
-
-    //     console.log(doc);
-    // })
 
 
     const userRouter = require('./routes/User');

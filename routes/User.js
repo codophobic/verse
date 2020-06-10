@@ -6,6 +6,21 @@ const passport = require('passport');
 const passportConfig = require('../passport');
 const JWT = require('jsonwebtoken');
 const User = require('../models/User');
+const multer = require('multer');
+
+
+
+
+var storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+    cb(null, 'uploads')
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + '-' +file.originalname )
+  }
+});
+
+var upload = multer({ storage: storage }).array('file')
 
 const signToken = userId=>{
     return JWT.sign({
@@ -14,6 +29,19 @@ const signToken = userId=>{
     },"verse",{expiresIn:'1h'});
 }
 
+userRouter.post('/upload',function(req, res) {
+     
+    upload(req, res, function (err) {
+           if (err instanceof multer.MulterError) {
+               return res.status(500).json(err)
+           } else if (err) {
+               return res.status(500).json(err)
+           }
+      return res.status(200).send(req.file)
+
+    })
+
+});
 
 userRouter.post('/register',async (req,res)=>{
     const { email,name,password } = req.body;
