@@ -87,7 +87,7 @@ class FileUpload extends Component {
         Axios.post('user/upload',data,{
 
         }).then(res=>{
-            console.log(res.statusText);
+            console.log(res);
             this.setState({
                 selectedFile:null
             });

@@ -16,13 +16,13 @@ const defaultState = {
 const todoReducer = (state = defaultState, action) => {
   switch (action.type) {
     case ACTIONS.Types.UPDATE_USER: {
-      console.log(action);
+      //console.log(action);
 
       let user = action.payload;
       
       let newState = _.cloneDeep(state);
       newState.user= user;
-      console.log(newState);
+      //console.log(newState);
       return newState;
     }
 
@@ -30,12 +30,12 @@ const todoReducer = (state = defaultState, action) => {
       let newState = _.cloneDeep(state);
       let val = action.payload;
       newState.isAuthenticated=val;
-     console.log(newState);
+     //console.log(newState);
       return newState;
     }
 
     case ACTIONS.Types.EDIT_NOTE:{
-      console.log(action);
+      //console.log(action);
       let newState=_.cloneDeep(state);
       newState.editedNote= {
         note:action.payload.note,

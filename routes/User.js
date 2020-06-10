@@ -29,7 +29,7 @@ const signToken = userId=>{
     },"verse",{expiresIn:'1h'});
 }
 
-userRouter.post('/upload',function(req, res) {
+userRouter.post('/upload',passport.authenticate('jwt',{session:false}),function(req, res) {
      
     upload(req, res, function (err) {
            if (err instanceof multer.MulterError) {
@@ -37,9 +37,9 @@ userRouter.post('/upload',function(req, res) {
            } else if (err) {
                return res.status(500).json(err)
            }
-      return res.status(200).send(req.file)
+      return res.status(200).json({mesg:'file uploaded in uploads folder',file:req.file});
 
-    })
+    });
 
 });
 
@@ -89,7 +89,7 @@ userRouter.post('/newNote',passport.authenticate('jwt',{session:false}),(req,res
             res.status(500).json({message:{msgBody:'err occured',msgError:true}});
             else
             {
-                res.status(200).json({message:'notes uploaded'});
+                res.status(200).json({message:'notes uploaded,',user:req.user});
                 //console.log(req.user);
             } 
         })
@@ -118,7 +118,7 @@ userRouter.delete('/deleteNote',passport.authenticate('jwt',{session:false}),(re
         res.status(500).json({message:{msgBody:'err occured',msgError:true}});
         else
         {
-            res.status(200).json({message:'note deleted'});
+            res.status(200).json({message:'note deleted',user:req.user});
             //console.log(req.user);
         } 
     })
@@ -138,7 +138,7 @@ userRouter.patch('/editNote',passport.authenticate('jwt',{session:false}),async 
 
     let update ={notes:allNotes};
 
-    const updateNotes= await User.findByIdAndUpdate(req.user._id,update,(err,doc)=>{
+    const updateNotes= await User.findByIdAndUpdate(req.user._id,update,{new:true},(err,doc)=>{
         if(err)
         res.send(err);
         else

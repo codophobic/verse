@@ -1,0 +1,3 @@
+https://www.getpostman.com/collections/af1229fc6ec3fbed2168
+
+Open this link in the browser and enable json viewer.
