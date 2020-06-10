@@ -16,3 +16,7 @@
 Your application will start running.
 <br/>
 **server will run on port 5000.If you want to change the port,go to server.js in root folder and change port number in line 23**
+<br/>
+
+**postman collection link**<br/>
+https://www.getpostman.com/collections/af1229fc6ec3fbed2168
